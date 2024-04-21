@@ -7,16 +7,21 @@ public class PowerUps : MonoBehaviour
     public GameObject[] powerups;
     void Start()
     {
-        SpawnPowerup();
-    }
+		StartCoroutine(SpawnPowerup());
+	}
 
     IEnumerator SpawnPowerup()
     {
         while (true)
         {
-            yield return new WaitForSeconds(2);
-            int randomIndex = Random.Range(-5, powerups.Length + 5);
-            Instantiate(powerups[randomIndex], new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0), Quaternion.identity);
-        }
+			yield return new WaitForSeconds(2);
+
+			if (powerups.Length > 0)
+			{
+				int randomIndex = Random.Range(0, powerups.Length);
+				Vector3 spawnPosition = new Vector3(Random.Range(-10, 10), Random.Range(-10, 10), 0);
+				Instantiate(powerups[randomIndex], spawnPosition, Quaternion.identity); //fixed this part because it kept giving me index out of bounds error
+			}
+		}
     }
 }
